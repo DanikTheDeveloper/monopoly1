@@ -1,4 +1,4 @@
 # team-koala
 CMPT 276 Summer 2023 Team Koala Project
 
-./maven.sh to build/run
+Most up to date version, runnable in IntelliJ IDEA environment
