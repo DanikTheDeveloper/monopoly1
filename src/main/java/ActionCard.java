@@ -34,8 +34,8 @@ public class ActionCard extends Space {
                         "They can send you somewhere good or bad!\n");
 
         }
-        //int cardType = random.nextInt(4);
-        int cardType = 1;
+        int cardType = random.nextInt(4);
+        //int cardType = 1;
 
         switch (cardType) {
             case 0:

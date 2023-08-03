@@ -3,6 +3,7 @@ import java.util.List;
  * The Game class represents a game instance with players, a board, and dice.
  */
 public class Game {
+    public static final int STARTMONEY = 2000;
     private Board board;
     private Die die;
     public static List<Player> players;
@@ -16,7 +17,7 @@ public class Game {
 
     public Game(GameFactory factory, GUI2 gui) {
         this.board = factory.createBoard(gui);
-        this.players = factory.createPlayers();
+        this.players = factory.createPlayers(this);
         this.gui = gui;
         board = new Board(gui);
         die = new Die();

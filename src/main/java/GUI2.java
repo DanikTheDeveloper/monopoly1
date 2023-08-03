@@ -207,8 +207,11 @@ public class GUI2 implements ActionListener , PlayerObserver {
                     else if (game.getPrevPlayer().getOnUtility() != null && game.getPrevPlayer().getOnUtility().isAvailable())
                         setBuyUtilityButton(game);
 
+                    // if player owns the entire property set they are on
                     if (game.getPrevPlayer().getOnCity() != null && game.getPrevPlayer().ownsCurrentSet(game.getPrevPlayer().getOnCity())) {
-                        setBuyHouseButton(game);
+
+                        // if houses/hotels are still able to be purchased on this property
+                        if (!game.getPrevPlayer().getOnCity().getHasHotel()) setBuyHouseButton(game);
                     }
 
                     // end button will only be created if current player is not AI
@@ -393,7 +396,7 @@ public class GUI2 implements ActionListener , PlayerObserver {
     }
 
     public void setBuyHouseButton(Game game) {
-        buyHouseButton = new JButton("Buy house");
+        buyHouseButton = new JButton("Buy house/hotel");
         buyHouseButton.setBounds(440, 520 + MOVEUP, 120, 25);
 
         layeredPane.add(buyHouseButton, new Integer(5));
@@ -403,13 +406,12 @@ public class GUI2 implements ActionListener , PlayerObserver {
             public void actionPerformed(ActionEvent e) {
                 // find out how many houses can be purchased (max houses on a city - number of existing houses on city)
                 int possibleHouses = City.MAXHOUSES - game.getPrevPlayer().getOnCity().getNumHouses();
-                setBuyNumOfHousesButton(game, possibleHouses);
+
+                // TO DO: create 5 buttons (1, 2, 3, 4, hotel) and determine if hotel/houses are purchasable
             }
         });
     }
 
-    public void setBuyNumOfHousesButton(Game game, int count) {
-    }
 
     public void setEndTurnButton(Game game) {
         endTurnButton = new JButton("End turn");
@@ -548,12 +550,16 @@ public class GUI2 implements ActionListener , PlayerObserver {
         setBackdrop(black);
     }
 
-    public void initializeTheBoard(Game game) {
+    public void initializeTheBoard(Game game, GameFactory factory) {
         System.out.println("initializingTheBoard");
 
         setBoardPositions();
 
-        ImageIcon icon = new ImageIcon(getClass().getResource("board.png"));
+        String imagePath = factory.getBoardStyle() + ".png";
+        System.out.println("Attempting to load image from: " + imagePath);
+        System.out.println("Board Style from Factory: " + factory.getBoardStyle());
+        ImageIcon icon = new ImageIcon(getClass().getResource(imagePath));
+
         Image image = icon.getImage();
         image = image.getScaledInstance(820, -1, Image.SCALE_SMOOTH);
         icon = new ImageIcon(image);

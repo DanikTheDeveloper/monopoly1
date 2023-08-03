@@ -12,6 +12,7 @@ public class City extends Space {
     private int rent;
     private int houseCost;
     private int numHouses = 0;
+    private boolean hasHotel;
     private Player owner;
     private GUI2 gui;
     private propertyColor color;
@@ -22,6 +23,7 @@ public class City extends Space {
         this.price = price;
         this.rent = rent;
         this.houseCost = houseCost;
+        hasHotel = false;
         this.owner = null; // Initially, no one owns the city.
         this.gui = gui;
         this.color = color;
@@ -39,6 +41,7 @@ public class City extends Space {
         return rent;
     }
     public int getNumHouses() { return numHouses; }
+    public boolean getHasHotel() { return hasHotel; }
 
     public void incrementNumOfHouses() {
         this.numHouses++;
@@ -56,6 +59,18 @@ public class City extends Space {
         }
 
         numHouses += count;
+    }
+
+    public void addHotel() {
+        if (numHouses == 0) {
+            rent *= 80;
+        }
+        else {
+            rent *= 5 - numHouses;
+        }
+
+        numHouses = 0;
+        hasHotel = true;
     }
 
     public propertyColor getColor() { return color; }
