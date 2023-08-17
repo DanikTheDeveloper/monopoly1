@@ -1,3 +1,4 @@
+import javax.accessibility.AccessibleIcon;
 import java.util.List;
 
 public interface GameFactory {
@@ -8,7 +9,12 @@ public interface GameFactory {
     void setNumPlayers(int numPlayers);
     int getNumOfAiPlayers();
     void setNumOfAiPlayers(int numOfAiPlayers);
+    public AIDifficulty getAIDifficulty();
+    public void setAIDifficulty (AIDifficulty difficulty);
 
+
+    public boolean getAllColors();
+    public void setAllColors(boolean allColors);
     int getCash();
     void setCash(int cash);
 

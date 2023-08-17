@@ -17,6 +17,7 @@ public class City extends Space {
     private GUI2 gui;
     private propertyColor color;
 
+    public City() {super();}
     public City(String name, int price, int rent, int houseCost, GUI2 gui, propertyColor color) {
         this.isProperty = true;
         this.name = name;
@@ -47,18 +48,14 @@ public class City extends Space {
         this.numHouses++;
     }
 
-    public void addHouses(int count) {
+    public void addHouse() {
         if (numHouses == 0) {
             rent *= 5;
-            if (count > 1) {
-                rent *= 2 * (count - 1);
-            }
         }
         else {
-            rent *= count * 2;
+            rent *= 2;
         }
-
-        numHouses += count;
+        numHouses++;
     }
 
     public void addHotel() {
@@ -90,7 +87,7 @@ public class City extends Space {
 
     @Override
     public void action(Player player) {
-
+        player.setOnCity(this);
         gui.getTextArea().append(player.getName() + " has landed on: " + this.name);
 
         // if property is available to be purchased
@@ -112,15 +109,7 @@ public class City extends Space {
                 System.out.println("Insufficient funds to buy the Property");
                 gui.getTextArea().append(" Insufficient funds to buy the Property");
             }
-            /*
-            System.out.println("This city is available for purchase at a price of $" + price);
-            if (player.wantToBuyCity(this)) {
-                player.buyCity(this);
-                System.out.println("Congratulations! You have successfully purchased " + this.name);
-            } else {
-                System.out.println("You chose not to purchase " + this.name);
-            }
-            */
+
         }
         // if property is owned by another player
         else if (getOwner() != player) {
@@ -134,20 +123,10 @@ public class City extends Space {
                 gui.getTextArea().append("\n" + player.getName() + " must pay " + owner.getName() + " " + rent + "$");
                 player.payRent(rent);
                 owner.receiveRent(rent);
-                /*
-                System.out.println(player.getName() + " initially has $" + player.getMoney());
-                gui.getTextArea().append(player.getName() + " initially has $" + player.getMoney() + ".");
-                player.payRent(rent);
-                owner.receiveRent(rent);
-                System.out.println("Amount left after paying rent is: $" + player.getMoney());
-                gui.getTextArea().append(" Amount left after paying rent is: $" + player.getMoney());
-                System.out.println("After receiving the rent, Owner(" + owner.getName() + ") has $" + owner.getMoney() + ".");
-                gui.getTextArea().append(" After receiving the rent, Owner(" + owner.getName() + ") has $" + owner.getMoney());
 
-                 */
             }
             else{
-
+                player.transferAssets(getOwner());
                 gui.getTextArea().append(player.getName() + " has  $" + player.getMoney() + ". ");
 
                 gui.getTextArea().append("Insufficient funds! The Player is Bankrupted!");

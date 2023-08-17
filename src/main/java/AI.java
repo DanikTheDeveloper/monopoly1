@@ -7,14 +7,21 @@ enum AIStrategy {
     AGGRESSIVEBUY, SETPRIORITY, CAUTIOUS
 }
 
+enum AIDifficulty {
+    EASY, MEDIUM, HARD
+}
+
 public class AI extends Player{
     private Random random;
     private AIStrategy currentStrategy;
+    private float probabilityMultiplier;
+    private AIDifficulty currentDifficulty;
     private Game game;
 
-    public AI(String name, int money, GUI2 gui, Game game) {
+    public AI(String name, int money, GUI2 gui, Game game, AIDifficulty difficulty) {
         super(name, money, gui);
         this.game = game;
+        this.currentDifficulty = difficulty;
         random = new Random();
         int strategy = random.nextInt(3);
         switch (strategy) {
@@ -27,20 +34,25 @@ public class AI extends Player{
             case 2:
                 currentStrategy = AIStrategy.CAUTIOUS;
         }
+        switch (difficulty) {
+            case EASY:
+                probabilityMultiplier = 0.5f;
+                break;
+
+            case MEDIUM:
+                probabilityMultiplier = 0.75f;
+                break;
+
+            case HARD:
+                probabilityMultiplier = 1.0f;
+                break;
+        }
     }
     @Override
     public String getType(){
         return "AI";
     }
-    // to implement: AI decision making master function
-//    public void makeDecision() {
-//        float probability = 0.8f;
-//
-//        if (ownsCurrentSet(getOnCity())) {
-//
-//        }
-//
-//    }
+
     @Override
     public boolean makeDecision() {
         float probability;
@@ -58,24 +70,24 @@ public class AI extends Player{
 
         switch (currentStrategy) {
             case AGGRESSIVEBUY -> {
-                probability = 0.8f;
+                probability = 0.8f * probabilityMultiplier;
                 int propertyCount = getOwnedCities().size() + getOwnedUtilities().size();
                 // AI will always purchase if they own less than 3 properties
                 if (propertyCount < 3) return true;
                 if (propertyCount < 10) probability += 0.1f;
             }
             case SETPRIORITY -> {
-                probability = 0.7f;
+                probability = 0.7f * probabilityMultiplier;
 
                 // if AI owns another city of this set
-                if (ownsSameColor(getOnCity())) probability += 0.2f;
+                if (getOnCity() != null && ownsSameColor(getOnCity())) probability += 0.2f;
             }
             case CAUTIOUS -> {
-                probability = 0.6f;
+                probability = 0.6f * probabilityMultiplier;
 
                 // if current AI is most poor player in the game
                 if (numOfRicherPlayers == game.getNumPlayers() - 1) probability -= 0.2f;
-                if (ownsSameColor(getOnCity())) probability += 0.1f;
+                if (getOnCity() != null && ownsSameColor(getOnCity())) probability += 0.1f;
             }
             default -> probability = 0.5f;
         }

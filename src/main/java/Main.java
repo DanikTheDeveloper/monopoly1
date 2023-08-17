@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        MainMenu menu = new MainMenu(true);
+        GUI2 gui = new GUI2(true);
+        MainMenu menu = new MainMenu(gui);
     }
 }

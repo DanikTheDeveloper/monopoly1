@@ -15,6 +15,7 @@ public class Die {
     public int roll() {
         diceOne = random.nextInt(6) + 1;
         diceTwo = random.nextInt(6) + 1;
+        //diceTwo = diceOne;
         return diceOne + diceTwo;
     }
 

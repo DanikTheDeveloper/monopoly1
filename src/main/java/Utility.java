@@ -53,6 +53,7 @@ public class Utility extends Space{
 
     @Override
     public void action(Player player) {
+        player.setOnUtility(this);
         System.out.println("You have landed on: " + this.name);
         gui.getTextArea().append(player.getName() + " has landed on: " + this.name + ".");
         if (isAvailable()) {
@@ -117,6 +118,7 @@ public class Utility extends Space{
                  */
             }
             else{
+                player.transferAssets(getOwner());
                 System.out.println(player.getName() + " has  $" + player.getMoney());
                 gui.getTextArea().append(" " + player.getName() + " has  $" + player.getMoney());
                 System.out.println("Insufficient funds! The Player is Bankrupted");

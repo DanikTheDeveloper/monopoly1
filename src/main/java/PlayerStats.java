@@ -11,10 +11,6 @@ public class PlayerStats extends PlayerStatMenu{
 		return this;
 	}
 
-//	public void initializeImage(int i){
-//		originalIcon = new ImageIcon(getClass().getResource("S" + i + ".png")); // get StatDisplay image
-//	}
-
 	public void setMoneyLabel(int money) {
 
         String moneyString = String.valueOf(money);

@@ -71,6 +71,15 @@ public class Board {
     public Space getPosition(int position) {
         return theBoard.get(position);
     }
+
+    public Space getSpace(String name) {
+        for (Space s : theBoard){
+            if (s.name.equals(name)){
+                return s;
+            }
+        }
+        return null;
+    }
     /**
      * Returns the size of the game board.
      *
